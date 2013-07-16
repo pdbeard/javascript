@@ -31,6 +31,9 @@
 			var container, stats;
 
 			var camera, scene, renderer;
+      var group;  
+
+
 
 			var video, image, imageContext,
 			imageReflection, imageReflectionContext, imageReflectionGradient,
@@ -53,7 +56,6 @@
 				document.body.appendChild( container );
 
 				var info = document.createElement( 'div' );
-				info.style.position = 'absolute';
 				info.style.top = '10px';
 				info.style.width = '100%';
 				info.style.textAlign = 'center';
@@ -64,6 +66,10 @@
 				camera.position.z = 1000;
 
 				scene = new THREE.Scene();
+
+				group = new THREE.Object3D();
+				scene.add( group );
+
 
 				video = document.getElementById( 'video' );
 
@@ -103,17 +109,20 @@
 
 				//
 
-				var plane = new THREE.PlaneGeometry( 480, 204, 4, 4 );
+				var plane = new THREE.PlaneGeometry( 300, 300, 3, 3 );
+        var geometry = new THREE.SphereGeometry(200, 40, 40 );
 
-				mesh = new THREE.Mesh( plane, material );
+				mesh = new THREE.Mesh( geometry, material );
 				mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
 				scene.add(mesh);
+				group.add( mesh );
 
-				mesh = new THREE.Mesh( plane, materialReflection );
+				mesh = new THREE.Mesh( geometry, materialReflection );
 				mesh.position.y = -306;
 				mesh.rotation.x = - Math.PI;
 				mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
 				scene.add( mesh );
+				group.add( mesh );
 
 				//
 
@@ -145,14 +154,15 @@
 						particle.position.y = -153
 						particle.position.z = iy * separation - ( ( amounty * separation ) / 2 );
 						scene.add( particle );
+		    		group.add( particle );
 
 					}
 
 				}
 
 				renderer = new THREE.CanvasRenderer();
-				renderer.setSize( window.innerWidth, window.innerHeight );
 
+				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
 				stats = new Stats();
@@ -217,6 +227,7 @@
 				imageReflectionContext.fillStyle = imageReflectionGradient;
 				imageReflectionContext.fillRect( 0, 0, 480, 204 );
 
+				group.rotation.y -= 0.005;
 				renderer.render( scene, camera );
 
 			}

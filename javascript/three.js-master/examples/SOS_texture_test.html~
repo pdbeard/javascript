@@ -60,28 +60,21 @@
 	//		    } 
 	//		);
 		</script> 
-	
-		<video id="video" autoplay loop style="display:none">
-			<source src="textures/sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-			<source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
-		</video>
-
-	<script>
+		<script>
 			var container, stats;
 			var camera, scene, renderer;
 			var group;
 			var mouseX = 0, mouseY = 0;
 
-      var video, texture;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 
-//      animate();
-//      init();
-//		  function run_init(){
-				  init();
-				  animate();
-//			}
+			//init();
+			//animate();
+	//		function run_init(){
+				init();
+				animate();
+	//			}
 			function init() {
 				alert("init")
 				container = document.getElementById( 'container' );
@@ -95,6 +88,7 @@
 				scene.add( group );
 
 				// earth
+
 				var earthTexture = new THREE.Texture();
 				var loader = new THREE.ImageLoader();
 
@@ -105,9 +99,7 @@
 
 				} );
 
-				video = document.getElementById( 'video' );
-				texture = new THREE.Texture( video );
-				//loader.load( 'textures/2048.png' );
+				loader.load( 'textures/alignment2048_red.png' );
 
 				var geometry = new THREE.SphereGeometry( 200, 40, 40 );
 				var material = new THREE.MeshBasicMaterial( { map: earthTexture, overdraw: true } );
@@ -193,14 +185,6 @@
 				camera.position.x += ( mouseX - camera.position.x ) * 0.05;
 				camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 				camera.lookAt( scene.position );
-
-				if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
-
-					context.drawImage( video, 0, 0 );
-
-					if ( texture ) texture.needsUpdate = true;
-					if ( textureReflection ) textureReflection.needsUpdate = true;
-
 
 				group.rotation.y -= 0.005;
 
